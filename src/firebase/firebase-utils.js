@@ -15,6 +15,35 @@ const config = {
 
 firebase.initializeApp(config);
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  // if user sign out do nothing.
+  if (!userAuth) return;
+
+  // else do this block of code.
+  const userRef = firestore.doc(`users/3645646sa46g4`);
+  const snapShot = await userRef.get();
+  console.log(snapShot);
+
+  // if the user doesn't exists on DB, Store him/her.
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log('oh no..', error.message);
+    }
+  }
+  return userRef;
+};
+
+
 // export firebase libs.
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

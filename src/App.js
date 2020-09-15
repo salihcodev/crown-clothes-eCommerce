@@ -12,7 +12,7 @@ import SignIn from './views/signin-and-signup/Signing.page';
 
 // UTILITIES:
 import { Route, Switch } from 'react-router-dom';
-import { auth } from './firebase/firebase-utils';
+import { auth, createUserProfileDocument } from './firebase/firebase-utils';
 
 class App extends React.Component {
   constructor() {
@@ -26,10 +26,10 @@ class App extends React.Component {
   unsubscribeFormAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFormAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
+    this.unsubscribeFormAuth = auth.onAuthStateChanged(async (user) => {
+      createUserProfileDocument(user);
 
-      console.log(user);
+      this.setState({ currentUser: user });
     });
   }
 
