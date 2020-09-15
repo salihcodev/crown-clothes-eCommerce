@@ -1,9 +1,11 @@
 import React from 'react';
 import './JokerBtn.style.sass';
 
-const JokerBtn = ({ children, ...otherBtnProps }) => {
+const JokerBtn = ({ children, isGoogleBtn, ...otherBtnProps }) => {
   return (
-    <button className='joker-btn' {...otherBtnProps}>
+    <button
+      className={`${isGoogleBtn ? 'google-sign-in' : ''} joker-btn`}
+      {...otherBtnProps}>
       {children}
     </button>
   );
