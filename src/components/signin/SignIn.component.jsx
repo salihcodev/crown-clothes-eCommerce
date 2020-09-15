@@ -4,6 +4,7 @@ import './SignIn.style.sass';
 import FormInput from '../../components/form-input/FormInput.component';
 
 import JokerBtn from '../../components/joker-button/JokerBtn.component';
+import { signInWithGoogle } from '../../firebase/firebase-utils';
 
 export default class SignIn extends React.Component {
   constructor() {
@@ -48,7 +49,12 @@ export default class SignIn extends React.Component {
             value={this.state.password}
             required
           />
-          <JokerBtn type='submit'>Submit Form</JokerBtn>
+          <div className='buttons'>
+            <JokerBtn type='submit'>Sign in</JokerBtn>
+            <JokerBtn onClick={signInWithGoogle} isGoogleBtn>
+              Sign in with google
+            </JokerBtn>
+          </div>
         </form>
       </div>
     );

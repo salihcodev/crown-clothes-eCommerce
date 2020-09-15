@@ -12,18 +12,43 @@ import SignIn from './views/signin-and-signup/Signing.page';
 
 // UTILITIES:
 import { Route, Switch } from 'react-router-dom';
+import { auth, createUserProfileDocument } from './firebase/firebase-utils';
 
-function App() {
-  return (
-    <>
-      <Header />
-      <Switch>
-        <Route exact path='/' component={LandingPage} />
-        <Route exact path='/shop' component={ShopPage} />
-        <Route exact path='/sign-in' component={SignIn} />
-      </Switch>
-    </>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: null,
+    };
+  }
+
+  unsubscribeFormAuth = null;
+
+  componentDidMount() {
+    this.unsubscribeFormAuth = auth.onAuthStateChanged(async (user) => {
+      createUserProfileDocument(user);
+
+      this.setState({ currentUser: user });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFormAuth();
+  }
+
+  render() {
+    return (
+      <>
+        <Header currentUser={this.state.currentUser} />
+        <Switch>
+          <Route exact path='/' component={LandingPage} />
+          <Route exact path='/shop' component={ShopPage} />
+          <Route exact path='/sign-in' component={SignIn} />
+        </Switch>
+      </>
+    );
+  }
 }
 
 export default App;
