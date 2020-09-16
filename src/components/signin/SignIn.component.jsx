@@ -4,7 +4,7 @@ import './SignIn.style.sass';
 import FormInput from '../../components/form-input/FormInput.component';
 
 import JokerBtn from '../../components/joker-button/JokerBtn.component';
-import { signInWithGoogle } from '../../firebase/firebase-utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase-utils';
 
 export default class SignIn extends React.Component {
   constructor() {
@@ -16,9 +16,17 @@ export default class SignIn extends React.Component {
     };
   }
 
-  handelSubmission = (event) => {
+  handelSubmission = async (event) => {
     event.preventDefault();
-    this.setState({ email: '', password: '' });
+
+    try {
+      const { email, password } = this.state;
+
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: '', password: '' });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   inputOnChange = (event) => {
