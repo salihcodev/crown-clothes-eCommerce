@@ -26,11 +26,25 @@ class App extends React.Component {
   unsubscribeFormAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFormAuth = auth.onAuthStateChanged(async (user) => {
-      createUserProfileDocument(user);
+    this.unsubscribeFormAuth = auth.onAuthStateChanged(
+      async (userAuth, additionalData) => {
+        if (userAuth) {
+          const userRef = createUserProfileDocument(userAuth);
 
-      this.setState({ currentUser: user });
-    });
+          // set user data from firestore to state.
+          (await userRef).onSnapshot((snapShot) =>
+            this.setState({
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data(),
+              },
+            })
+          );
+        } else {
+          this.setState({ currentUser: userAuth });
+        }
+      }
+    );
   }
 
   componentWillUnmount() {

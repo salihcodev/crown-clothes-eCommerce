@@ -3,14 +3,14 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 const config = {
-  apiKey: 'AIzaSyCtreIgjLISG-mDWFEmq7IhsgbOnSRuqYU',
-  authDomain: 'crown-db-f4df4.firebaseapp.com',
-  databaseURL: 'https://crown-db-f4df4.firebaseio.com',
-  projectId: 'crown-db-f4df4',
-  storageBucket: 'crown-db-f4df4.appspot.com',
-  messagingSenderId: '758214981943',
-  appId: '1:758214981943:web:44355e8a1c6b14591d02b2',
-  measurementId: 'G-2F32ZSF53Q',
+  apiKey: 'AIzaSyCL9gh6wSw63-0A2-Lz3Rzfkqg5eqWPA1A',
+  authDomain: 'crown-clothes-db.firebaseapp.com',
+  databaseURL: 'https://crown-clothes-db.firebaseio.com',
+  projectId: 'crown-clothes-db',
+  storageBucket: 'crown-clothes-db.appspot.com',
+  messagingSenderId: '914012653879',
+  appId: '1:914012653879:web:377e7d275c62cd53f3f2b2',
+  measurementId: 'G-GQ8CPRYSS2',
 };
 
 firebase.initializeApp(config);
@@ -18,31 +18,30 @@ firebase.initializeApp(config);
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   // if user sign out do nothing.
   if (!userAuth) return;
-
   // else do this block of code.
-  const userRef = firestore.doc(`users/3645646sa46g4`);
-  const snapShot = await userRef.get();
-  console.log(snapShot);
+  else {
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
+    const snapShot = await userRef.get();
 
-  // if the user doesn't exists on DB, Store him/her.
-  if (!snapShot.exists) {
-    const { displayName, email } = userAuth;
-    const createdAt = new Date();
+    // if the user doesn't exists on DB, Store him/her.
+    if (!snapShot.exists) {
+      const { displayName, email } = userAuth;
+      const createdAt = new Date();
 
-    try {
-      await userRef.set({
-        displayName,
-        email,
-        createdAt,
-        ...additionalData,
-      });
-    } catch (error) {
-      console.log('oh no..', error.message);
+      try {
+        await userRef.set({
+          displayName,
+          email,
+          createdAt,
+          ...additionalData,
+        });
+      } catch (error) {
+        console.log('oh no..', error.message);
+      }
     }
+    return userRef;
   }
-  return userRef;
 };
-
 
 // export firebase libs.
 export const auth = firebase.auth();
