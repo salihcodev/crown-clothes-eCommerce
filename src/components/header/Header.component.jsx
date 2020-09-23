@@ -4,6 +4,7 @@ import './Header.styles.sass';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase-utils';
+import { connect } from 'react-redux';
 
 // navbar
 const Header = ({ currentUser }) => (
@@ -31,4 +32,10 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-export default Header;
+const mapPropsToState = ({ user: { currentUser } }) => {
+  // console.log(currentUser);
+  return {
+    currentUser: currentUser,
+  };
+};
+export default connect(mapPropsToState)(Header);

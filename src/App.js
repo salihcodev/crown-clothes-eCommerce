@@ -13,48 +13,39 @@ import SignIn from './views/signin-and-signup/Signing.page';
 // UTILITIES:
 import { Route, Switch } from 'react-router-dom';
 import { auth, createUserProfileDocument } from './firebase/firebase-utils';
+import setCurrentUser from './redux/user/userActions';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: null,
-    };
-  }
-
-  unsubscribeFormAuth = null;
+  unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFormAuth = auth.onAuthStateChanged(
-      async (userAuth, additionalData) => {
-        if (userAuth) {
-          const userRef = createUserProfileDocument(userAuth);
+    const { setCurrentUser } = this.props;
 
-          // set user data from firestore to state.
-          (await userRef).onSnapshot((snapShot) =>
-            this.setState({
-              currentUser: {
-                id: snapShot.id,
-                ...snapShot.data(),
-              },
-            })
-          );
-        } else {
-          this.setState({ currentUser: userAuth });
-        }
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot((snapShot) => {
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
+          });
+        });
       }
-    );
+
+      setCurrentUser(userAuth);
+    });
   }
 
   componentWillUnmount() {
-    this.unsubscribeFormAuth();
+    this.unsubscribeFromAuth();
   }
 
   render() {
     return (
       <>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/shop' component={ShopPage} />
@@ -65,4 +56,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(null, mapDispatchToProps)(App);
