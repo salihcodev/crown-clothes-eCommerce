@@ -11,11 +11,15 @@
   right: 40px
   z-index: 5
 
+  &:hover
+    .cart-items
+      overflow-y: scroll
+
   .cart-items
     height: 240px
     display: flex
     flex-direction: column
-    overflow-y: scroll
+    transition: all ease-in-out 0.3s
 
   button
     margin-top: auto
