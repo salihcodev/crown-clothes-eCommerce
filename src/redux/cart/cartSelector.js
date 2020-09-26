@@ -6,15 +6,32 @@ const selectCart = (state) => state.cart;
 // cart items here, and call it inside  <createSelector> function to memoize :)
 export const selectCartItems = createSelector(
   [selectCart],
-  (selectCart) => selectCart.cartItemsList
+  (cart) => cart.cartItemsList
 );
 
-// memoize the cart total items.
+// get cart-visibility state to manage cart-items-dropdown:
+export const cartVisibility = createSelector(
+  [selectCart],
+  (cart) => cart.hidden
+);
+
+// memoize the cart total-quantity items.
 export const selectItemsCount = createSelector(
   [selectCartItems],
   (cartItemsList) =>
     cartItemsList.reduce(
       (aqqQuantity, cartItem) => aqqQuantity + cartItem.quantity,
+      0
+    )
+);
+
+// memoize the cart total-price items.
+export const selectCartItemsTotal = createSelector(
+  [selectCartItems],
+  (cartItemsList) =>
+    cartItemsList.reduce(
+      (aqqQuantity, cartItem) =>
+        aqqQuantity + cartItem.quantity * cartItem.price,
       0
     )
 );

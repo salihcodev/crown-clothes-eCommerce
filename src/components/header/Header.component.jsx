@@ -11,6 +11,10 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase-utils';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { currentUserSelector } from '../../redux/user/userSelector';
+import { cartVisibility } from '../../redux/cart/cartSelector';
 
 // NAV COMPONENT:
 const Header = ({ currentUser, hidden }) => (
@@ -41,11 +45,8 @@ const Header = ({ currentUser, hidden }) => (
   </div>
 );
 
-const mapPropsToState = ({ user: { currentUser }, cart: { hidden } }) => {
-  // console.log(currentUser);
-  return {
-    currentUser,
-    hidden,
-  };
-};
+const mapPropsToState = createStructuredSelector({
+  currentUser: currentUserSelector,
+  hidden: cartVisibility,
+});
 export default connect(mapPropsToState)(Header);
