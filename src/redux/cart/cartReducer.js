@@ -1,6 +1,6 @@
 // UTILITIES:
 import cartActionTypes from './cartActionTypes';
-import { addUniItemToCart } from './cartUtil';
+import { addUniItemToCart, controlTheCheckoutItem } from './cartUtil';
 
 // INITIAL STATE:
 const INITIAL_STATE = {
@@ -25,6 +25,15 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         cartItemsList: state.cartItemsList.filter(
           (cartItem) => cartItem.id !== action.payload.id
+        ),
+      };
+
+    case cartActionTypes.controlTheItem:
+      return {
+        ...state,
+        cartItemsList: controlTheCheckoutItem(
+          state.cartItemsList,
+          action.payload
         ),
       };
 
