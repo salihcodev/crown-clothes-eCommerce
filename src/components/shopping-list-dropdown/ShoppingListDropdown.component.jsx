@@ -4,6 +4,7 @@ import './ShoppingListDropdown.sass';
 
 // UTILITIES:
 import { connect } from 'react-redux';
+import {selectCartItems} from "../../redux/cart/cartSelector"
 
 // COMPONENTS:
 import CartItem from '../cart-item/CartItem.component';
@@ -20,8 +21,8 @@ const ShoppingListDropdown = ({ cartItemsList }) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { cartItemsList } }) => ({
-  cartItemsList,
+const mapStateToProps = (state) => ({
+  cartItemsList: selectCartItems(state)
 });
 
 export default connect(mapStateToProps)(ShoppingListDropdown);
