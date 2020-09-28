@@ -10,6 +10,7 @@ import LandingPage from './views/landing-page/Landing.page';
 import ShopPage from './views/shop-page/Shop.page';
 import SignIn from './views/signin-and-signup/Signing.page';
 import Checkout from './views/checkout/Checkout.page';
+import CollectionPage from './views/collection-page/Collection.page';
 
 // UTILITIES:
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -57,6 +58,8 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/shop' component={ShopPage} />
+          <Route path={`/shop/:collectionId`} component={CollectionPage} />
+
           <Route exact path='/checkout' component={Checkout} />
           <Route
             exact

@@ -1,7 +1,11 @@
+// BASIC:
 import React from 'react';
-import CollectionItem from '../../components/collection-item/CollectionItem.component';
 import './CollectionPreview.style.sass';
 
+// COMPONENTS:
+import CollectionItem from '../../components/collection-item/CollectionItem.component';
+
+// COMPONENT:
 const CollectionPreview = ({ title, items }) => (
   <div className='collection-preview'>
     <h1 className='title'>{title.toUpperCase()}</h1>

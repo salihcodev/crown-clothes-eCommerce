@@ -1,3 +1,14 @@
+/* IMPORTANT NOTE TO UNDER STAND [RESELECT LIB 
+
+  => - It used to return a memoized version of specific state.
+
+  for EX: <cartVisibility> it's just a simple function that invoked in <Header>
+    and take whole state as a parameter and in this file we deiced which state 
+    we need, and memoize it and return it to header as key:value   :)
+  
+  
+*/
+
 import { createSelector } from 'reselect';
 
 // cart.
