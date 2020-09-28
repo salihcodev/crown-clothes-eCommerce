@@ -10,6 +10,7 @@ import { selectCartItemsTotal } from '../../redux/cart/cartSelector';
 
 // COMPONENTS:
 import CheckoutItem from '../../components/checkout-item/CheckoutItem.component';
+import StripeCheckoutTrigger from '../../components/stripe-trigger/StripeTrigger.component';
 
 // COMPONENTS:
 const CheckoutPage = ({ selectCartItems, total }) => (
@@ -35,6 +36,18 @@ const CheckoutPage = ({ selectCartItems, total }) => (
       <CheckoutItem key={cartItem.id} cartItem={cartItem} />
     ))}
     <div className='total'>TOTAL: ${total}</div>
+
+    <div className='test-warning'>
+      <p className='flag'>
+        *Please use the following test credit card for payments*
+      </p>
+      <p className='fake-data'> 4242 4242 4242 4242 - Exp: 01/20 - CVV: 123</p>
+    </div>
+
+    {/* handel payment method */}
+    <div className='stripe-payment'>
+      <StripeCheckoutTrigger price={total} />
+    </div>
   </div>
 );
 
